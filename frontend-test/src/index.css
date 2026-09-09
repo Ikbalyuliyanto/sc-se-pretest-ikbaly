@@ -1,0 +1,45 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 24px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 20px;
+}
+
+/* --- kelas yang akan dipakai komponen (silakan ubah) --- */
+
+.controls {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.board {
+  display: inline-grid;
+  border: 2px solid #333;
+}
+
+.square {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.square--light { background: #fff; }
+.square--dark  { background: #000; }
+
+.square--knight     { color: red; }
+.square--hover-ok    { background: green !important; }
+.square--hover-bad   { background: red !important; }

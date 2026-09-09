@@ -1,0 +1,20 @@
+# dependencies
+node_modules/
+frontend-test/node_modules/
+
+# build output
+dist/
+build/
+
+# go
+backend-test/backend-test
+*.exe
+
+# editor / os
+.DS_Store
+.vscode/
+.idea/
+
+# logs
+*.log
+npm-debug.log*

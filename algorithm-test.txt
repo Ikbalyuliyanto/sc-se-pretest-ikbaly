@@ -1,0 +1,30 @@
+SOAL 4 - ALGORITHM PROGRAMMING
+findMaxInMin(arr, k)
+
+Deskripsi:
+Diberikan array `arr` dan angka `k`. Bentuk semua subset berurutan (window)
+selebar `k`. Dari tiap window ambil nilai minimumnya. Kembalikan nilai
+maksimum dari kumpulan minimum tersebut.
+
+Contoh:
+  arr = [8, 1, 6, 3, 66, 1, 8, 5], k = 3
+  window: [8,1,6] [1,6,3] [6,3,66] [3,66,1] [66,1,8] [1,8,5]
+  min tiap window: [1, 1, 3, 1, 1, 1]
+  hasil (max dari list min): 3
+
+
+======================================================================
+PSEUDOCODE  (tulis di sini - bahasa manusia, bukan bahasa pemrograman)
+======================================================================
+
+FUNCTION findMaxInMin(arr, k):
+    # TODO: tulis langkah-langkahmu di sini
+    #
+    # petunjuk urutan berpikir:
+    # 1. tentukan berapa banyak window yang ada
+    # 2. untuk setiap posisi awal window:
+    #        a. cari nilai minimum di dalam window itu
+    #        b. bandingkan dengan jawaban terbesar sementara, simpan yang lebih besar
+    # 3. kembalikan jawaban terbesar
+
+END FUNCTION
