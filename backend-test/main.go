@@ -1,45 +1,65 @@
-// SOAL 2 - BACKEND (Go)
-//
-// Baca slice integer berukuran besar, hitung SUM semua bilangan GENAP
-// menggunakan goroutine. Slice dibagi ke beberapa worker (mis. 4),
-// tiap worker memproses bagiannya secara konkuren. Gunakan channel
-// untuk mengumpulkan hasil parsial + sinkronisasi (WaitGroup) supaya
-// bebas race condition.
-//
-// Jalankan:  go run main.go
-// Cek race:  go run -race main.go
-
 package main
 
 import (
 	"fmt"
+	"sync"
 )
 
-const numWorkers = 4
+func worker(numbers []int, results chan<- int, wg *sync.WaitGroup) {
+	defer wg.Done()
 
-// sumEvens menjumlahkan bilangan genap pada sebagian slice (satu chunk).
-func sumEvens(part []int) int {
-	// TODO: loop part, kalau v%2 == 0 tambahkan ke total, return total
-	return 0
+	sum := 0
+
+	for _, number := range numbers {
+		if number%2 == 0 {
+			sum += number
+		}
+	}
+
+	results <- sum
 }
 
 func main() {
-	// data contoh (nanti bisa dibesarkan, mis. 1..1_000_000)
-	data := make([]int, 0, 1_000_000)
-	for i := 1; i <= 1_000_000; i++ {
-		data = append(data, i)
+	// Membuat slice integer berukuran besar.
+	numbers := make([]int, 1000000)
+
+	for i := range numbers {
+		numbers[i] = i + 1
 	}
 
-	// TODO:
-	// 1. buat channel untuk hasil parsial: results := make(chan int, numWorkers)
-	// 2. buat sync.WaitGroup
-	// 3. bagi `data` jadi numWorkers chunk; untuk tiap chunk:
-	//       wg.Add(1)
-	//       go func(part []int) { defer wg.Done(); results <- sumEvens(part) }(chunk)
-	// 4. goroutine terpisah: go func(){ wg.Wait(); close(results) }()
-	// 5. total := 0; for r := range results { total += r }
-	// 6. cetak total
+	const workerCount = 4
 
-	var total int
-	fmt.Println("total sum bilangan genap:", total)
+	// Channel untuk mengumpulkan hasil dari setiap worker.
+	results := make(chan int, workerCount)
+
+	var wg sync.WaitGroup
+	wg.Add(workerCount)
+
+	// Membagi slice menjadi 4 bagian.
+	chunkSize := len(numbers) / workerCount
+
+	for i := 0; i < workerCount; i++ {
+		start := i * chunkSize
+		end := start + chunkSize
+
+		if i == workerCount-1 {
+			end = len(numbers)
+		}
+
+		go worker(numbers[start:end], results, &wg)
+	}
+
+	// Menunggu semua worker selesai.
+	wg.Wait()
+
+	// Mengumpulkan hasil dari semua worker.
+	totalSum := 0
+
+	for i := 0; i < workerCount; i++ {
+		totalSum += <-results
+	}
+
+	close(results)
+
+	fmt.Println("Jumlah bilangan genap:", totalSum)
 }
