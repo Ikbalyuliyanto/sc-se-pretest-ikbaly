@@ -1,57 +1,37 @@
--- SOAL 1
-categories
-    |
-    | 1
-    |
-    | N
-  books
-    |
-    | 1
-    |
-    | N
-  loans
-    |
-    | N
-    |
-    | 1
-  users
+/* =========================
+   Soal 1
+   dalam bentuk gambar.
+========================= */
+/* =========================
+   Soal 2
+========================= */
 
--- SOAL 2
+SELECT b.judul AS "Buku"
+FROM buku b
+LEFT JOIN peminjaman p
+    ON b.id = p.buku_id
+WHERE p.buku_id IS NULL;
 
-SELECT b.judul AS Buku
-FROM books b
-LEFT JOIN loans l ON b.id_book = l.id_book
-WHERE l.id_book IS NULL;
-
-
--- SOAL 3
+/* =========================
+   Soal 3
+========================= */
 
 SELECT
-    u.nama AS User,
-    CONCAT(
-        'Rp',
-        SUM(
-            DATEDIFF(l.tanggal_kembali, l.tanggal_jatuh_tempo) * 1000
-        )
-    ) AS Denda
-FROM users u
-JOIN loans l ON u.id_user = l.id_user
-WHERE l.tanggal_kembali > l.tanggal_jatuh_tempo
-GROUP BY u.id_user, u.nama;
+    u.nama,
+    (p.tanggal_kembali - p.tanggal_jatuh_tempo) * 1000 AS denda
+FROM pengguna u
+JOIN peminjaman p
+    ON u.id = p.pengguna_id
+WHERE p.tanggal_kembali > p.tanggal_jatuh_tempo;
 
-
--- SOAL 4
+/* =========================
+   Soal 4
+========================= */
 
 SELECT
-    ROW_NUMBER() OVER (ORDER BY u.id_user) AS No,
-    u.nama AS User,
-    GROUP_CONCAT(
-        b.judul
-        ORDER BY b.id_book DESC
-        SEPARATOR ', '
-    ) AS Buku
-FROM users u
-JOIN loans l ON u.id_user = l.id_user
-JOIN books b ON l.id_book = b.id_book
-GROUP BY u.id_user, u.nama
-ORDER BY u.id_user;
+    u.nama AS "User",
+    STRING_AGG(b.judul, ', ') AS "Buku"
+FROM pengguna u
+JOIN peminjaman p ON u.id = p.pengguna_id
+JOIN buku b ON p.buku_id = b.id
+GROUP BY u.nama;

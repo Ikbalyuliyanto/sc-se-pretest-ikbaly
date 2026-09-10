@@ -179,14 +179,12 @@ chess-cell {
 }
 
 
-/* GERAKAN VALID */
+/* GERAKAN  */
 
 .cell--allowed:hover {
     background: #27c93f;
 }
 
-
-/* GERAKAN TIDAK VALID */
 
 .cell--blocked:hover {
     background: red;
