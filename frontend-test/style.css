@@ -1,0 +1,212 @@
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+
+    background: white;
+    color: #111;
+
+    font-family: Arial, sans-serif;
+}
+
+
+/* HALAMAN */
+
+.page {
+    min-height: 100vh;
+
+    padding-top: 43px;
+
+    text-align: center;
+}
+
+
+/* JUDUL */
+
+h1 {
+    margin: 0 0 10px;
+
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+/* INPUT */
+
+.controls {
+    width: 72px;
+
+    margin: 0 auto 11px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 7px;
+}
+
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 3px;
+}
+
+
+.input-group label {
+    font-size: 8px;
+}
+
+
+.input-group input {
+    width: 42px;
+    height: 14px;
+
+    padding: 1px 3px;
+
+    border: 1px solid #aaa;
+    border-radius: 1px;
+
+    font-size: 8px;
+
+    text-align: center;
+}
+
+
+/* TOMBOL */
+
+#generateButton {
+    width: 45px;
+    min-height: 20px;
+
+    padding: 2px;
+
+    border: 1px solid #aaa;
+    border-radius: 2px;
+
+    background: #eee;
+
+    font-size: 7px;
+
+    cursor: pointer;
+}
+
+
+#generateButton:hover {
+    background: #ddd;
+}
+
+
+/* BOARD */
+
+chess-board {
+    --cell-size: 18px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(var(--columns), var(--cell-size));
+
+    grid-template-rows:
+        repeat(var(--rows), var(--cell-size));
+
+    width: max-content;
+
+    margin: auto;
+
+    border: 1px solid #777;
+}
+
+
+/* KOTAK */
+
+chess-cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 0;
+
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+/* WARNA KOTAK */
+
+.cell--light {
+    background: white;
+}
+
+
+.cell--dark {
+    background: #050505;
+}
+
+
+/* KUDA */
+
+.cell--knight {
+    background: #050505;
+
+    color: red;
+
+    font-size: 13px;
+    font-weight: 900;
+
+    cursor: default;
+}
+
+
+/* HOVER POSISI KUDA */
+
+.cell--knight:hover {
+    background: red;
+}
+
+
+/* GERAKAN VALID */
+
+.cell--allowed:hover {
+    background: #27c93f;
+}
+
+
+/* GERAKAN TIDAK VALID */
+
+.cell--blocked:hover {
+    background: red;
+}
+
+
+/* HP */
+
+@media (max-width: 600px) {
+
+    .page {
+        padding-top: 25px;
+    }
+
+    chess-board {
+        --cell-size: min(18px, 7vw);
+    }
+
+    chess-cell {
+        font-size: calc(var(--cell-size) * 0.72);
+    }
+
+}
